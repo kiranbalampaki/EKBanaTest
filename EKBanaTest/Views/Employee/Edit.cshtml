@@ -25,12 +25,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
+                <input asp-for="DateOfBirth" class="form-control" type="date" />
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Salary" class="control-label"></label>
-                <input asp-for="Salary" class="form-control" />
+                <input asp-for="Salary" class="form-control" type="number" />
                 <span asp-validation-for="Salary" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -47,3 +47,6 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/customValidation.js"></script>
