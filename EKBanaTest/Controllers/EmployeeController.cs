@@ -45,9 +45,15 @@ namespace EKBanaTest.Controllers
 
         // GET: Employee/Create
         //[Authorize]
-        public IActionResult Create()
+        public IActionResult Save(int id = 0)
         {
-            return View();
+            Employee employee = new Employee();
+            if (id != 0)
+            {
+                employee = _context.Employees.Find(id);
+            }
+
+            return View(employee);
         }
 
         // POST: Employee/Create
@@ -55,64 +61,19 @@ namespace EKBanaTest.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EmployeeName,Address,DateOfBirth,Salary")] Employee employee)
+        public async Task<IActionResult> Save([Bind("Id,EmployeeName,Address,DateOfBirth,Salary")] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(employee);
-        }
-
-        // GET: Employee/Edit/5
-        //[Authorize]
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var employee = await _context.Employees.FindAsync(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-            return View(employee);
-        }
-
-        // POST: Employee/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EmployeeName,Address,DateOfBirth,Salary")] Employee employee)
-        {
-            if (id != employee.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                if (employee.Id == 0)
+                {
+                    _context.Add(employee);
+                }
+                else
                 {
                     _context.Update(employee);
-                    await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EmployeeExists(employee.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);
