@@ -121,26 +121,6 @@ namespace EKBanaTest.Controllers
         // GET: Employee/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var employee = await _context.Employees
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return View(employee);
-        }
-
-        // POST: Employee/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
             var employee = await _context.Employees.FindAsync(id);
             _context.Employees.Remove(employee);
             await _context.SaveChangesAsync();
